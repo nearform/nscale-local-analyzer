@@ -1,0 +1,31 @@
+{
+  "name": "nfd-boot2docker-analyzer",
+  "version": "0.0.1",
+  "description": "Analyzes boot2docker deployments",
+  "private": true,
+  "main": "index.js",
+  "bin": {
+    "nfd-boot2docker-analyze": "analyze.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nearform/nfd-boot2docker-analyzer.git"
+  },
+  "keywords": [
+    "aws",
+    "analyzer",
+    "deployment",
+    "nfd"
+  ],
+  "author": "Peter Eler <peter.elger@nearform.com>",
+  "license": "private",
+  "bugs": {
+    "url": "https://github.com/nearform/nfd-aws-analyzer/issues"
+  },
+  "homepage": "https://github.com/nearform/nfd-aws-analyzer",
+  "dependencies": {
+    "async": "~0.9.0",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {}
+}
