@@ -1,6 +1,6 @@
 {
   "name": "nscale-boot2docker-analyzer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Analyzes boot2docker deployments",
   "main": "index.js",
   "bin": {
