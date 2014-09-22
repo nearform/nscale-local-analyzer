@@ -14,7 +14,6 @@
 
 'use strict';
 
-var uuid = require('uuid')
 var async = require('async');
 var docker = require('./lib/docker-containers');
 var postProcessing = require('./lib/postProcessing');
@@ -33,24 +32,24 @@ var postProcessing = require('./lib/postProcessing');
  *  'instanceFilter':     the tag key to filter instances on (typically nfd-id)
  */
 exports.analyze = function analyze(config, cb) {
-  var defId = uuid.v1()
   var result = {
     'name': '',
     'namespace': '',
     'id': '',
     'containerDefinitions': [{
-      'name': 'Local Machine',
+      'name': 'Machine',
       'type': 'blank-container',
       'specific': {},
-      'id': defId
+      'id': '85d99b2c-06d0-5485-9501-4d4ed429799c'
     }],
     'topology': {
       'containers': {
         '10': {
           'id': '10',
-          'containerDefinitionId': defId,
+          'containerDefinitionId': '85d99b2c-06d0-5485-9501-4d4ed429799c',
           'containedBy': '10',
           'contains': [],
+          'type': 'blank-container',
           'specific': {'ipaddress': 'localhost'}
         },
       }
