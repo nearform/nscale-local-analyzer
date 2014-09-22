@@ -14,22 +14,10 @@
 
 'use strict';
 
+var uuid = require('uuid')
 var async = require('async');
 var docker = require('./lib/docker-containers');
 var postProcessing = require('./lib/postProcessing');
-
-/*
-{
-  "name": "sudc",
-  "namespace": "sudc",
-  "systemId": "12341234213432143",
-  "instanceFilter": "nfd-id",
-  "dockerFilters": ["web", "doc-srv", "real-srv", "hist-srv"]
-}
-*/
-
-
-//wget http://localhost:2375/containers/json
 
 /**
  * run an analysis on local boot2docker
@@ -45,25 +33,22 @@ var postProcessing = require('./lib/postProcessing');
  *  'instanceFilter':     the tag key to filter instances on (typically nfd-id)
  */
 exports.analyze = function analyze(config, cb) {
+  var defId = uuid.v1()
   var result = {
     'name': '',
     'namespace': '',
     'id': '',
-    'containerDefinitions': [
-      {
-        'name': 'Machine',
-        'type': 'virtualbox',
-        'specific': {
-          'repositoryToken': '04551b154404a852e663aba4c3fa299e04f6e8a5'
-        },
-        'id': '85d99b2c-06d0-5485-9501-4d4ed429799c'
-      },
-    ],
+    'containerDefinitions': [{
+      'name': 'Local Machine',
+      'type': 'blank-container',
+      'specific': {},
+      'id': defId
+    }],
     'topology': {
       'containers': {
         '10': {
           'id': '10',
-          'containerDefinitionId': '85d99b2c-06d0-5485-9501-4d4ed429799c',
+          'containerDefinitionId': defId,
           'containedBy': '10',
           'contains': [],
           'specific': {'ipaddress': 'localhost'}
@@ -71,7 +56,7 @@ exports.analyze = function analyze(config, cb) {
       }
     }
   };
-  
+
   async.eachSeries([
     docker.fetchImages,
     docker.fetchContainers,

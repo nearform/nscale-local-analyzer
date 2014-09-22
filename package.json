@@ -1,32 +1,38 @@
 {
-  "name": "nscale-boot2docker-analyzer",
+  "name": "nscale-local-analyzer",
   "version": "0.1.4",
-  "description": "Analyzes boot2docker deployments",
+  "description": "Analyzes local dokcer deployments, part of nscale",
   "main": "index.js",
   "bin": {
-    "nscale-boot2docker-analyze": "analyze.js"
+    "nscale-local-analyze": "analyze.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/nearform/nfd-boot2docker-analyzer.git"
+    "url": "git://github.com/nearform/nfd-local-analyzer.git"
   },
   "keywords": [
+    "local",
+    "docker",
     "boot2docker",
     "analyzer",
     "deployment",
     "nscale"
   ],
   "author": "Peter Eler <peter.elger@nearform.com>",
+  "Contributors": [
+    "Matteo Collina <matteo.collina@nearform.com>"
+  ],
   "license": "Artistic License 2.0",
   "bugs": {
-    "url": "https://github.com/nearform/nscale-boot2docker-analyzer/issues"
+    "url": "https://github.com/nearform/nscale-local-analyzer/issues"
   },
-  "homepage": "https://github.com/nearform/nfd-boot2docker-analyzer",
+  "homepage": "https://github.com/nearform/nfd-local-analyzer",
   "dependencies": {
     "async": "^0.9.0",
     "dockerode": "^2.0.3",
     "lodash": "^2.4.1",
-    "request": "^2.40.0"
+    "request": "^2.40.0",
+    "uuid": "^1.4.1"
   },
   "devDependencies": {}
 }
