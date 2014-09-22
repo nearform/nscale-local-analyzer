@@ -66,7 +66,12 @@ exports.analyze = function analyze(config, cb) {
       if (err) { return cb(err); }
       cb(null);
     });
-  }, function(err) { cb(err, result); });
+  }, function(err) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, result);
+  });
 };
 
 
