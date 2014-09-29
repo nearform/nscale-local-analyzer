@@ -1,7 +1,6 @@
 {
-  "name": "sudc",
-  "namespace": "sudc",
-  "systemId": "12341234213432143",
-  "dockerFilters": ["web"]
+  "name": "isight",
+  "namespace": "isight",
+  "systemId": "12341234213432143"
 }
 
