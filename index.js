@@ -15,7 +15,8 @@
 'use strict';
 
 var async = require('async');
-var docker = require('./lib/docker-containers');
+var dockerContainers = require('./lib/docker-containers');
+var localDocker = require('./lib/local-docker');
 var postProcessing = require('./lib/postProcessing');
 
 /**
@@ -33,6 +34,7 @@ var postProcessing = require('./lib/postProcessing');
  * cb: the callback that will be called with the result.
  */
 exports.analyze = function analyze(config, system, cb) {
+  var docker = dockerContainers(localDocker);
   var result = {
     'name': '',
     'namespace': '',
