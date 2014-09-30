@@ -19,19 +19,20 @@ var docker = require('./lib/docker-containers');
 var postProcessing = require('./lib/postProcessing');
 
 /**
- * run an analysis on local boot2docker
+ * run an analysis on local system, either a Linux running Docker directly,
+ * or a Linux/Mac system running Docker remotely (with DOCKER_HOST configured properly)
  *
- * config:
+ * config (required):
+ *  * 'name':               the system name to use (optional)
+ *  * 'namespace':          the system namespace to use (optional)
+ *  * 'systemId':           the system id to insert into the generated system definition file (optional)
+ *  * 'dockerFilters':      the tag key to filter images on (optional)
  *
- * Required:
- *  'name':               the system name to use
- *  'namespace':          the system namespace to use
- *  'systemId':           the system id to insert into the generated system definition file
+ * system (required): the last known system state.
  *
- * Optional:
- *  'instanceFilter':     the tag key to filter instances on (typically nfd-id)
+ * cb: the callback that will be called with the result.
  */
-exports.analyze = function analyze(config, cb) {
+exports.analyze = function analyze(config, system, cb) {
   var result = {
     'name': '',
     'namespace': '',
@@ -55,6 +56,12 @@ exports.analyze = function analyze(config, cb) {
       }
     }
   };
+
+  config.dockerFilters = config.dockerFilters || []
+
+  if (system && system.name) {
+    config.dockerFilters.push(system.name)
+  }
 
   async.eachSeries([
     docker.fetchImages,

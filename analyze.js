@@ -20,17 +20,15 @@
 var fs = require('fs');
 var configFile = process.argv[2];
 var analyze = require('./');
-var config;
+var config = {};
+var system = {};
 
-if (!configFile) {
-  console.log('Missing config');
-  process.exit(-1);
+if (configFile) {
+  config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
 }
 
-config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-
 console.log('Analyzing...');
-analyze.analyze(config, function(err, status) {
+analyze.analyze(config, system, function(err, status) {
   if (err) { return console.log(err); }
   console.log(JSON.stringify(status, null, 2));
   process.exit(0);
