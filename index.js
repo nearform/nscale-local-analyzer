@@ -15,7 +15,7 @@
 'use strict';
 
 var async = require('async');
-var dockerContainers = require('./lib/docker-containers');
+var dockerContainers = require('nscale-docker-analyzer');
 var localDocker = require('./lib/local-docker');
 var postProcessing = require('./lib/postProcessing');
 
