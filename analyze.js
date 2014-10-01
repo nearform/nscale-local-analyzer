@@ -29,7 +29,10 @@ if (configFile) {
 
 console.log('Analyzing...');
 analyze.analyze(config, system, function(err, status) {
-  if (err) { return console.log(err); }
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
   console.log(JSON.stringify(status, null, 2));
   process.exit(0);
 });
