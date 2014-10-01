@@ -29,16 +29,18 @@ var postProcessing = require('./lib/postProcessing');
  *  * 'systemId':           the system id to insert into the generated system definition file (optional)
  *  * 'dockerFilters':      the tag key to filter images on (optional)
  *
- * system (required): the last known system state.
+ * system (required): the last known system state, can be null
  *
  * cb: the callback that will be called with the result.
  */
 exports.analyze = function analyze(config, system, cb) {
+  system = system || {};
+
   var docker = dockerContainers(localDocker);
   var result = {
-    'name': '',
-    'namespace': '',
-    'id': '',
+    'name': system.name || config.name,
+    'namespace': system.namespace || config.namespace,
+    'id': system.systemId || config.systemId,
     'containerDefinitions': [{
       'name': 'Machine',
       'type': 'blank-container',
@@ -61,7 +63,7 @@ exports.analyze = function analyze(config, system, cb) {
 
   config.dockerFilters = config.dockerFilters || []
 
-  if (system && system.name) {
+  if (system.name) {
     config.dockerFilters.push(system.name)
   }
 
