@@ -18,6 +18,32 @@ var async = require('async');
 var dockerContainers = require('nscale-docker-analyzer');
 var localDocker = require('./lib/local-docker');
 var postProcessing = require('./lib/postProcessing');
+var _ = require('lodash');
+
+
+exports.initFilters = function(config, system) {
+  var cnames = _.map(system.containerDefinitions, function(cdef) { return {name: cdef.name, type: cdef.type}; });
+  cnames = _.filter(cnames, function(name) { return name.type === 'docker'; });
+
+  config.dockerFilters = config.dockerFilters || [];
+
+  if (system.name) {
+    if (!_.find(config.dockerFilters, function(filter) { return filter === system.name; })) {
+      config.dockerFilters.push(system.name);
+    }
+  }
+
+  _.each(cnames, function(name) {
+    if (!_.find(config.dockerFilters, function(filter) { return filter === name.name; })) {
+      if (system.name && name.name.indexOf(system.name) !== 0) {
+        config.dockerFilters.push(name.name);
+      }
+    }
+  });
+};
+
+
+
 
 /**
  * run an analysis on local system, either a Linux running Docker directly,
@@ -61,11 +87,7 @@ exports.analyze = function analyze(config, system, cb) {
     }
   };
 
-  config.dockerFilters = config.dockerFilters || []
-
-  if (system.name) {
-    config.dockerFilters.push(system.name)
-  }
+  exports.initFilters(config, system);
 
   async.eachSeries([
     docker.fetchImages,
