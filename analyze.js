@@ -21,7 +21,11 @@ var fs = require('fs');
 var configFile = process.argv[2];
 var analyze = require('./');
 var config = {};
-var system = {};
+var system = {
+  topology: {
+    containers: {}
+  }
+};
 
 if (configFile) {
   config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
