@@ -44,6 +44,12 @@ exports.initFilters = function(config, system) {
 
 
 
+var findRootId = function(system) {
+  var r = _.find(system.topology.containers, function(c) { return c.type === 'blank-container'; });
+  return r ? r.id : '10';
+};
+
+
 
 /**
  * run an analysis on local system, either a Linux running Docker directly,
@@ -63,6 +69,7 @@ exports.analyze = function analyze(config, system, cb) {
   system = system || {};
 
   var docker = dockerContainers(localDocker);
+  var rootId = findRootId(system);
   var result = {
     'name': system.name || config.name,
     'namespace': system.namespace || config.namespace,
@@ -74,19 +81,15 @@ exports.analyze = function analyze(config, system, cb) {
       'id': '85d99b2c-06d0-5485-9501-4d4ed429799c'
     }],
     'topology': {
-      'containers': {
-        '10': {
-          'id': '10',
-          'containerDefinitionId': '85d99b2c-06d0-5485-9501-4d4ed429799c',
-          'containedBy': '10',
-          'contains': [],
-          'type': 'blank-container',
-          'specific': {'ipaddress': 'localhost'}
-        },
-      }
+      'containers': {},
     }
   };
-
+  result.topology.containers[rootId] = {'id': rootId,
+                                        'containerDefinitionId': '85d99b2c-06d0-5485-9501-4d4ed429799c',
+                                        'containedBy': rootId,
+                                        'contains': [],
+                                        'type': 'blank-container',
+                                        'specific': {'ipaddress': 'localhost'}};
   exports.initFilters(config, system);
 
   async.eachSeries([
