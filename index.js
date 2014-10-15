@@ -15,9 +15,8 @@
 'use strict';
 
 var async = require('async');
-var dockerContainers = require('nscale-docker-analyzer');
+var dockerAnalyzer = require('nscale-docker-analyzer');
 var localDocker = require('./lib/local-docker');
-var postProcessing = require('./lib/postProcessing');
 var _ = require('lodash');
 
 
@@ -43,8 +42,6 @@ exports.initFilters = function(config, system) {
 };
 
 
-
-
 /**
  * run an analysis on local system, either a Linux running Docker directly,
  * or a Linux/Mac system running Docker remotely (with DOCKER_HOST configured properly)
@@ -60,9 +57,12 @@ exports.initFilters = function(config, system) {
  * cb: the callback that will be called with the result.
  */
 exports.analyze = function analyze(config, system, cb) {
-  system = system || {};
+  system = system || {
+    topology: {
+      containers: {}
+    }
+  };
 
-  var docker = dockerContainers(localDocker);
   var result = {
     'name': system.name || config.name,
     'namespace': system.namespace || config.namespace,
@@ -89,16 +89,7 @@ exports.analyze = function analyze(config, system, cb) {
 
   exports.initFilters(config, system);
 
-  async.eachSeries([
-    docker.fetchImages,
-    docker.fetchContainers,
-    postProcessing
-  ], function(func, cb) {
-    func(config, result, function(err) {
-      if (err) { return cb(err); }
-      cb(null);
-    });
-  }, function(err) {
+  dockerAnalyzer(localDocker, system)(config, result, function(err) {
     if (err) {
       return cb(err);
     }

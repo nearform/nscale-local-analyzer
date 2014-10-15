@@ -31,7 +31,7 @@
     "async": "^0.9.0",
     "dockerode": "^2.0.3",
     "lodash": "^2.4.1",
-    "nscale-docker-analyzer": "^0.3.1"
+    "nscale-docker-analyzer": "git://github.com/nearform/nscale-docker-analyzer.git#matching-step"
   },
   "devDependencies": {}
 }
