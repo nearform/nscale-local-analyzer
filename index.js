@@ -42,6 +42,14 @@ exports.initFilters = function(config, system) {
 };
 
 
+
+var findRootId = function(system) {
+  var r = _.find(system.topology.containers, function(c) { return c.type === 'blank-container'; });
+  return r ? r.id : '10';
+};
+
+
+
 /**
  * run an analysis on local system, either a Linux running Docker directly,
  * or a Linux/Mac system running Docker remotely (with DOCKER_HOST configured properly)
@@ -57,6 +65,8 @@ exports.initFilters = function(config, system) {
  * cb: the callback that will be called with the result.
  */
 exports.analyze = function analyze(config, system, cb) {
+  var rootId;
+
   system = system || {
     topology: {
       containers: {}
@@ -75,18 +85,17 @@ exports.analyze = function analyze(config, system, cb) {
     }],
     'topology': {
       'containers': {
-        '10': {
-          'id': '10',
-          'containerDefinitionId': '85d99b2c-06d0-5485-9501-4d4ed429799c',
-          'containedBy': '10',
-          'contains': [],
-          'type': 'blank-container',
-          'specific': {'ipaddress': 'localhost'}
-        },
       }
     }
   };
 
+  rootId = findRootId(system);
+  result.topology.containers[rootId] = {'id': rootId,
+                                        'containerDefinitionId': '85d99b2c-06d0-5485-9501-4d4ed429799c',
+                                        'containedBy': rootId,
+                                        'contains': [],
+                                        'type': 'blank-container',
+                                        'specific': {'ipaddress': 'localhost'}};
   exports.initFilters(config, system);
 
   dockerAnalyzer(localDocker, system)(config, result, function(err) {
