@@ -20,28 +20,6 @@ var localDocker = require('./lib/local-docker');
 var _ = require('lodash');
 
 
-exports.initFilters = function(config, system) {
-  var cnames = _.map(system.containerDefinitions, function(cdef) { return {name: cdef.name, type: cdef.type}; });
-  cnames = _.filter(cnames, function(name) { return name.type === 'docker'; });
-
-  config.dockerFilters = config.dockerFilters || [];
-
-  if (system.name) {
-    if (!_.find(config.dockerFilters, function(filter) { return filter === system.name; })) {
-      config.dockerFilters.push(system.name);
-    }
-  }
-
-  _.each(cnames, function(name) {
-    if (!_.find(config.dockerFilters, function(filter) { return filter === name.name; })) {
-      if (system.name && name.name.indexOf(system.name) !== 0) {
-        config.dockerFilters.push(name.name);
-      }
-    }
-  });
-};
-
-
 
 var findRootId = function(system) {
   var r = _.find(system.topology.containers, function(c) { return c.type === 'blank-container'; });
@@ -96,9 +74,8 @@ exports.analyze = function analyze(config, system, cb) {
                                         'contains': [],
                                         'type': 'blank-container',
                                         'specific': {'ipaddress': 'localhost'}};
-  exports.initFilters(config, system);
 
-  dockerAnalyzer(localDocker, system)(config, result, function(err) {
+  dockerAnalyzer(localDocker, config, system)(config, result, function(err) {
     if (err) {
       return cb(err);
     }
