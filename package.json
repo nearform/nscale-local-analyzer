@@ -1,6 +1,6 @@
 {
   "name": "nscale-local-analyzer",
-  "version": "0.4.4",
+  "version": "0.10.0",
   "description": "Analyzes local dokcer deployments, part of nscale",
   "main": "index.js",
   "bin": {
@@ -31,7 +31,7 @@
     "async": "^0.9.0",
     "dockerode": "^2.0.3",
     "lodash": "^2.4.1",
-    "nscale-docker-analyzer": "~0.4.2"
+    "nscale-docker-analyzer": "~0.10.0"
   },
   "devDependencies": {}
 }
