@@ -63,7 +63,8 @@ exports.analyze = function analyze(config, system, cb) {
     }],
     'topology': {
       'containers': {
-      }
+      },
+     'name': system.topology.name
     }
   };
 
