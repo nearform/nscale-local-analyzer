@@ -81,4 +81,15 @@ describe('canAnalyze', function() {
     };
     assert(!an.canAnalyze(sys));
   });
+
+  it('should return true if it contains blank-container def and a process def', function(){
+    var sys = {
+      containerDefinitions: [{
+        type: 'blank-container'
+      }, {
+        type: 'process'
+      }]
+    };
+    assert(an.canAnalyze(sys));
+  });
 });
