@@ -18,9 +18,11 @@ var an = require('../index');
 var assert = require('assert');
 
 describe('canAnalyze', function() {
-  it('should return true if it contains docker defs with no ipAddress', function(){
+  it('should return true if it contains blank-container defs with no ipAddress', function(){
     var sys = {
       containerDefinitions: [{
+        type: 'blank-container'
+      }, {
         type: 'docker'
       }]
     };
@@ -62,6 +64,17 @@ describe('canAnalyze', function() {
         specific: {
           ipaddress: '192.168.5.2'
         }
+      }, {
+        type: 'docker'
+      }]
+    };
+    assert(!an.canAnalyze(sys));
+  });
+
+  it('should return false if it contains something else', function(){
+    var sys = {
+      containerDefinitions: [{
+        type: 'aws-ami'
       }, {
         type: 'docker'
       }]
