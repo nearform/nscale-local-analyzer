@@ -6,6 +6,9 @@
   "bin": {
     "nscale-local-analyze": "analyze.js"
   },
+  "scripts": {
+    "test": "mocha test"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/nearform/nfd-local-analyzer.git"
@@ -33,5 +36,7 @@
     "lodash": "^2.4.1",
     "nscale-docker-analyzer": "~0.14.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "mocha": "^2.1.0"
+  }
 }

@@ -18,7 +18,11 @@ var async = require('async');
 var dockerAnalyzer = require('nscale-docker-analyzer');
 var localDocker = require('./lib/local-docker');
 var _ = require('lodash');
-
+var allowedTypes = [
+  'docker',
+  'process',
+  'blank-container'
+];
 
 
 var findRootId = function(system) {
@@ -84,4 +88,29 @@ exports.analyze = function analyze(config, system, cb) {
   });
 };
 
+
+
+/**
+ * Checks if this analyzer can analyze the given system.
+ * A local-analyzer can analyze if it contains docker or process
+ * containers, and blank-containers without an IP address.
+ *
+ */
+exports.canAnalyze = function canAnalyze(system) {
+
+  return _.every(system.containerDefinitions, function(def) {
+    var rightType = allowedTypes.indexOf(def.type) >= 0;
+    var hasIp = !!(
+                  def.type === 'blank-container' &&
+                  def.specific &&
+                  (
+                    def.specific.ipAddress ||
+                    def.specific.ipaddress ||
+                    def.specific.privateIpAddress
+                  )
+                );
+
+    return rightType && !hasIp;
+  });
+}
 
