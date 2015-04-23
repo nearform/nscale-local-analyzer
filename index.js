@@ -16,6 +16,7 @@
 
 var dockerAnalyzer = require('nscale-docker-analyzer');
 var localDocker = require('./lib/local-docker');
+var targetIp = require('nscale-target-ip');
 var _ = require('lodash');
 var allowedTypes = [
   'docker',
@@ -77,7 +78,9 @@ exports.analyze = function analyze(config, system, cb) {
                                         'containedBy': rootId,
                                         'contains': [],
                                         'type': 'blank-container',
-                                        'specific': {'ipaddress': 'localhost'}};
+                                        'specific': {'ipaddress': targetIp.toTargetIp}};
+
+  console.log(result.topology.containers[rootId]);
 
   dockerAnalyzer(localDocker, config, system)(config, result, function(err) {
     if (err) {
