@@ -23,6 +23,7 @@ var allowedTypes = [
   'process',
   'blank-container'
 ];
+var processContainersAnalyze = require('./lib/process-containers');
 
 
 var findRootId = function(system) {
@@ -80,8 +81,7 @@ exports.analyze = function analyze(config, system, cb) {
                                         'type': 'blank-container',
                                         'specific': {'ipaddress': targetIp.toTargetIp}};
 
-  console.log(result.topology.containers[rootId]);
-
+  processContainersAnalyze(config, system, result);
   dockerAnalyzer(localDocker, config, system)(config, result, function(err) {
     if (err) {
       return cb(err);
