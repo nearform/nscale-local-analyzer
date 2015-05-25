@@ -33,6 +33,7 @@
   "dependencies": {
     "async": "^0.9.0",
     "dockerode": "^2.0.3",
+    "is-running": "^1.0.5",
     "lodash": "^2.4.1",
     "nscale-docker-analyzer": "~0.16.0",
     "nscale-target-ip": "^0.1.1"
