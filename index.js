@@ -21,6 +21,7 @@ var _ = require('lodash');
 var allowedTypes = [
   'docker',
   'process',
+  'processmonitor',
   'blank-container'
 ];
 var processContainersAnalyze = require('./lib/process-containers');
@@ -81,12 +82,10 @@ exports.analyze = function analyze(config, system, cb) {
                                         'type': 'blank-container',
                                         'specific': {'ipaddress': targetIp.toTargetIp}};
 
-  processContainersAnalyze(config, system, result);
-  dockerAnalyzer(localDocker, config, system)(config, result, function(err) {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, result);
+  processContainersAnalyze(config, system, result, function(err, result) {
+    dockerAnalyzer(localDocker, config, system)(config, result, function(err) {
+      cb(err, result);
+    });
   });
 };
 
