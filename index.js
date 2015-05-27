@@ -21,6 +21,7 @@ var _ = require('lodash');
 var allowedTypes = [
   'docker',
   'process',
+  'processmonitor',
   'blank-container'
 ];
 var processContainersAnalyze = require('./lib/process-containers');
