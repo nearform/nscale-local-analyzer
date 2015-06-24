@@ -1,6 +1,6 @@
 {
   "name": "nscale-local-analyzer",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "description": "Analyzes local dokcer deployments, part of nscale",
   "main": "index.js",
   "bin": {
@@ -35,7 +35,7 @@
     "dockerode": "^2.0.3",
     "is-running": "^1.0.5",
     "lodash": "^2.4.1",
-    "nscale-docker-analyzer": "~0.17.1",
+    "nscale-docker-analyzer": "~0.17.3",
     "nscale-process-handler": "^0.1.0",
     "nscale-target-ip": "^0.1.1"
   },
